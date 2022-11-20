@@ -1,4 +1,7 @@
-import React from 'react'
+import axios from 'axios';
+import { updateCurrentUser } from 'firebase/auth';
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import styled from 'styled-components'
 import anandPic from '../img/anand.jpg'
 import Comment from './Comment';
@@ -24,19 +27,26 @@ padding: 5px;
 width: 100%;
 `;
 
-const Comments = () => {
+const Comments = ({videoId}) => {
+  const [comments, setComments] = useState([]);
+  const {currentUser} = useSelector((state)=> state.user);
+
+  useEffect(()=>{
+    const fetchComments = async () =>{
+      const res = await axios.get(`/comments/${videoId}`);
+    }
+  })
+
+ 
   return (
     <Container>
         <NewComment>
-            <Avatar src={anandPic}/>
+            <Avatar src={currentUser.img}/>
             <Input placeholder='Add a comment...'/>
         </NewComment>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
-        <Comment/>
+        {comments.map(comment=>(
+          <Comment key={comment._id} comment={comment}/>
+        ))}   
     </Container>
   )
 }

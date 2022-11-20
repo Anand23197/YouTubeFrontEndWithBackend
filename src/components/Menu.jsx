@@ -10,6 +10,7 @@ import {FaHistory, FaUserCircle} from 'react-icons/fa'
 import { BiHelpCircle} from 'react-icons/bi'
 import { TbDeviceGamepad2 } from 'react-icons/tb'
 import {Link} from "react-router-dom"
+import { useSelector } from 'react-redux'
 
 
 const Container = styled.div`
@@ -73,6 +74,9 @@ const Title = styled.h2`
     margin-bottom: 5px;
 `
 const Menu = ({darkMode, setDarkMode}) => {
+
+    const { currentUser } = useSelector((state) => state.user)
+
   return (
     <Container>
         <Wrapper>
@@ -86,14 +90,21 @@ const Menu = ({darkMode, setDarkMode}) => {
                 <AiFillHome/>
                 Home
             </Item>
+
+            <Link to="trends" style={{textDecoration : "none", color: "inherit"}} >
             <Item>
                 <MdOutlineExplore/>
                 Explore
             </Item>
+            </Link>
+            
+            <Link to="subscriptions" style={{textDecoration : "none", color: "inherit"}}>
             <Item>
                 <MdSubscriptions/>
                 Subscriptions
             </Item>
+            </Link>
+
             <Hr/>
             <Item>
                 <MdOutlineVideoLibrary/>
@@ -105,6 +116,8 @@ const Menu = ({darkMode, setDarkMode}) => {
             </Item>
 
             <Hr/>
+            { currentUser &&
+                <>
             <Login>
                 Sign in to like videos, comment, and subscribe
                 <Link to="signin" style={{textDecoration : "none"}}>
@@ -114,8 +127,8 @@ const Menu = ({darkMode, setDarkMode}) => {
                 </Button>
                 </Link>
             </Login>
-        
             <Hr/>
+            </>}
             <Title>BEST OF LAMATUBE</Title>
             <Item>
                 <MdLibraryMusic/>
