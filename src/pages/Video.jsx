@@ -115,7 +115,9 @@ const VideoFrame = styled.video`
 const Video = () => {
   debugger
   const { currentUser } = useSelector((state) => state.user);
-  const { currentVideo } = useSelector((state) => state.video);
+ // const { currentVideo } = useSelector((state) => state.video);
+
+ const [currentVideo, setCurrentVideo] = useState({})
   const dispatch = useDispatch();
 
   const path = useLocation().pathname.split("/")[2];
@@ -129,6 +131,7 @@ const Video = () => {
       try {
         debugger
         const videoRes = await axios.get(`/videos/find/${path}`);
+        console.log(videoRes);
         debugger
         const channelRes = await axios.get(
           `/users/find/${videoRes.data.userId}`
@@ -138,7 +141,7 @@ const Video = () => {
       } catch (err) {}
     };
     fetchData();
-  }, [path, dispatch]);
+  }, [path]);
 
   const handleLike = async () => {
     await axios.put(`/users/like/${currentVideo._id}`);
